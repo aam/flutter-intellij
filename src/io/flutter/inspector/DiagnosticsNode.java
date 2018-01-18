@@ -10,6 +10,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
+import com.intellij.openapi.vfs.LocalFileSystem;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.xdebugger.XSourcePosition;
+import com.intellij.xdebugger.impl.XSourcePositionImpl;
+import io.flutter.pub.PubRoots;
 import io.flutter.utils.CustomIconMaker;
 import io.flutter.utils.JsonUtils;
 import org.dartlang.vm.service.element.InstanceRef;
@@ -356,6 +361,17 @@ public class DiagnosticsNode {
    */
   boolean hasException() {
     return json.has("exception");
+  }
+
+  public boolean hasCreationLocation() {
+    return json.has("creationLocation");
+  }
+
+  public Location getCreationLocation() {
+    if (!hasCreationLocation()) {
+      return null;
+    }
+    return new Location(json.getAsJsonObject("creationLocation"), null);
   }
 
   /**
